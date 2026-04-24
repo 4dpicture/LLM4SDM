@@ -1,0 +1,291 @@
+{'num_chunks': 2,
+ 'chunk_assessments': [{'assessments': [{'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 11,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 12,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Clinical assessment',
+                                         'score': 3,
+                                         'evidence': 'The patient was assessed by a dermatologist '
+                                                     'and the diagnosis of melanoma was confirmed. '
+                                                     'The Breslow thickness was 4 mm.',
+                                         'justification': 'This patient was seen in our clinic for '
+                                                          'the first time with a suspicious skin '
+                                                          'lesion on his left arm. A biopsy was '
+                                                          'performed, and the diagnosis of '
+                                                          'melanoma was confirmed by '
+                                                          'histopathology. The Breslow thickness '
+                                                          'was 4 mm.'}],
+                        'summary': {'mean_score': 3.0,
+                                    'overall_quality': 'moderate',
+                                    'strengths': ['The patient was assessed by a dermatologist and '
+                                                  'the diagnosis of melanoma was confirmed.',
+                                                  'The Breslow thickness was 4 mm.'],
+                                    'weaknesses': [],
+                                    'additional_comments': None}},
+                       {'assessments': [{'item_number': 1,
+                                         'item_description': 'Voel je goed?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient if he feels well is '
+                                                          'a standard question to ask in order to '
+                                                          'assess his general condition. A score '
+                                                          'of 1 indicates that the patient does '
+                                                          'not feel well.'},
+                                        {'item_number': 2,
+                                         'item_description': 'Kijk je er goed uit?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient if he looks well is '
+                                                          'a standard question to ask in order to '
+                                                          'assess his general condition. A score '
+                                                          'of 1 indicates that the patient does '
+                                                          'not look well.'},
+                                        {'item_number': 3,
+                                         'item_description': 'Hoeveel pijn voel je?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient how much pain he '
+                                                          'feels is a standard question to ask in '
+                                                          'order to assess his general condition. '
+                                                          'A score of 1 indicates that the patient '
+                                                          'does not feel any pain.'},
+                                        {'item_number': 4,
+                                         'item_description': 'Hoeveel pijn voel je op de plaats?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient how much pain he '
+                                                          'feels on the place is a standard '
+                                                          'question to ask in order to assess his '
+                                                          'general condition. A score of 1 '
+                                                          'indicates that the patient does not '
+                                                          'feel any pain.'},
+                                        {'item_number': 5,
+                                         'item_description': 'Kijk je er goed uit?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient if he looks well is '
+                                                          'a standard question to ask in order to '
+                                                          'assess his general condition. A score '
+                                                          'of 1 indicates that the patient does '
+                                                          'not look well.'},
+                                        {'item_number': 6,
+                                         'item_description': 'Hoeveel pijn voel je op de plaats?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient how much pain he '
+                                                          'feels on the place is a standard '
+                                                          'question to ask in order to assess his '
+                                                          'general condition. A score of 1 '
+                                                          'indicates that the patient does not '
+                                                          'feel any pain.'},
+                                        {'item_number': 7,
+                                         'item_description': 'Hoeveel pijn voel je?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient how much pain he '
+                                                          'feels is a standard question to ask in '
+                                                          'order to assess his general condition. '
+                                                          'A score of 1 indicates that the patient '
+                                                          'does not feel any pain.'},
+                                        {'item_number': 8,
+                                         'item_description': 'Kijk je er goed uit?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient if he looks well is '
+                                                          'a standard question to ask in order to '
+                                                          'assess his general condition. A score '
+                                                          'of 1 indicates that the patient does '
+                                                          'not look well.'},
+                                        {'item_number': 9,
+                                         'item_description': 'Hoeveel pijn voel je op de plaats?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient how much pain he '
+                                                          'feels on the place is a standard '
+                                                          'question to ask in order to assess his '
+                                                          'general condition. A score of 1 '
+                                                          'indicates that the patient does not '
+                                                          'feel any pain.'},
+                                        {'item_number': 10,
+                                         'item_description': 'Hoeveel pijn voel je?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient how much pain he '
+                                                          'feels is a standard question to ask in '
+                                                          'order to assess his general condition. '
+                                                          'A score of 1 indicates that the patient '
+                                                          'does not feel any pain.'},
+                                        {'item_number': 11,
+                                         'item_description': 'Kijk je er goed uit?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient if he looks well is '
+                                                          'a standard question to ask in order to '
+                                                          'assess his general condition. A score '
+                                                          'of 1 indicates that the patient does '
+                                                          'not look well.'},
+                                        {'item_number': 12,
+                                         'item_description': 'Hoeveel pijn voel je op de plaats?',
+                                         'score': 0,
+                                         'evidence': 'verbal',
+                                         'justification': 'Asking the patient how much pain he '
+                                                          'feels on the place is a standard '
+                                                          'question to ask in order to assess his '
+                                                          'general condition. A score of 1 '
+                                                          'indicates that the patient does not '
+                                                          'feel any pain.'}],
+                        'summary': {'mean_score': 0.0,
+                                    'overall_quality': 'poor',
+                                    'strengths': [],
+                                    'weaknesses': ['The patient did not feel well. He looked bad '
+                                                   'and had pain on the place.'],
+                                    'additional_comments': ''}}],
+ 'transcript_metadata': {'start_time': '00:00:01',
+                         'end_time': '00:28:53',
+                         'total_segments': 204,
+                         'speaker_counts': {'Dokter': 87, 'Patiënt': 41, 'Verzorgende': 76},
+                         'total_text_length': {'Dokter': 19461,
+                                               'Patiënt': 2053,
+                                               'Verzorgende': 3646},
+                         'speakers': ['Patiënt', 'Verzorgende', 'Dokter']},
+ 'note': 'Multiple chunks detected. Consider aggregating scores or using a larger context window.'}
