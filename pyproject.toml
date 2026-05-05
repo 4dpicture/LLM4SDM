@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm4sdm"
+version = "0.1.0"
+description = "A Python tool for assessing Shared Decision Making (SDM) in clinician-patient conversations using the OPTION-12 framework. This project provides automated SDM assessment with structured output using large language models and supports multiple LLM backends."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "jinja2>=3.1.6",
+  "jupyterlab>=4.5.6",
+  "ollama>=0.6.2",
+  "openai>=1.54.0",
+  "pydantic>=2.11.9",
+  "python-docx>=1.2.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm4sdm"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/README.md"]
+exclude = ["*.pyc", "__pycache__", ".git", "tests"]
+
+[tool.ruff]
+extend-include = ["*.ipynb"]
+target-version = "py313"
+line-length = 79
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.13"
+executionEnvironments = [{ root = "src" }]
+reportPrivateImportUsage = "none"
