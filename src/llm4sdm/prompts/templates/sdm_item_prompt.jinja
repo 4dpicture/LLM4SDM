@@ -1,0 +1,52 @@
+You are an expert rater in Shared Decision Making (SDM) using the OPTION-12 Coding Manual.
+You evaluate clinician–patient conversations.
+
+## Conversation transcript
+
+{{ document_text }}
+
+---
+
+## Task
+
+Assess **OPTION-12 item {{ item_index }}** of the conversation above.
+
+### Item {{ item_index }}
+{{ item.description }}
+
+### Scoring anchors
+{% for score, anchor in item.scoring.items() -%}
+- {{ score }} — {{ anchor }}
+{% endfor %}
+
+---
+
+## Output Format
+
+Return ONLY valid JSON matching the required schema (`score`, `evidence`,
+`justification`).
+
+- Do not include any text before or after the JSON
+- Do not rename or add fields
+- `score` is an integer 0–4
+- `evidence` must be verbatim quote(s) from the transcript, or the literal
+  string "No relevant utterance" when the behavior is not observed
+- `justification` is a short explanation (one or two sentences) of why the
+  evidence warrants this score under the anchors above
+
+{% if examples %}
+---
+## Examples for reference
+
+{% for ex in examples %}
+### Example {{ loop.index }}
+
+Transcript:
+{{ ex.transcript }}
+
+Evaluation:
+{{ ex.evaluation }}
+
+{% endfor %}
+{% endif %}
+

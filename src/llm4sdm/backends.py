@@ -1,7 +1,12 @@
+from typing import Type, TypeVar
+
 from ollama import Client, Options
 from openai import OpenAI
+from pydantic import BaseModel
 
 from .structured_output import SDMAssessmentResponse
+
+R = TypeVar("R", bound=BaseModel)
 
 
 class VLLMBackend:
@@ -14,10 +19,13 @@ class VLLMBackend:
     ):
         self.client = OpenAI(base_url=base_url, api_key=api_key)
         self.model_name = model_name
-        self.json_schema = SDMAssessmentResponse.model_json_schema()
         self.options = options
 
-    def generate(self, prompt: str):
+    def generate(
+        self,
+        prompt: str,
+        response_model: Type[R] = SDMAssessmentResponse,
+    ) -> R:
         response = self.client.chat.completions.create(
             model=self.model_name,
             messages=[{"role": "user", "content": prompt}],
@@ -25,7 +33,7 @@ class VLLMBackend:
             top_p=self.options.get("top_p", 0.9),
             max_tokens=self.options.get("max_new_tokens", 4096),
             extra_body={
-                "guided_json": self.json_schema,
+                "guided_json": response_model.model_json_schema(),
                 "top_k": self.options.get("top_k", 40),
                 "repetition_penalty": self.options.get(
                     "repetition_penalty", 1.0
@@ -35,7 +43,7 @@ class VLLMBackend:
         content = response.choices[0].message.content
         if content is None:
             raise RuntimeError("vLLM returned empty completion content")
-        return SDMAssessmentResponse.model_validate_json(content)
+        return response_model.model_validate_json(content)
 
 
 class OllamaBackend:
@@ -55,17 +63,21 @@ class OllamaBackend:
         )
         self.model_name = model_name
 
-    def generate(self, prompt: str):
+    def generate(
+        self,
+        prompt: str,
+        response_model: Type[R] = SDMAssessmentResponse,
+    ) -> R:
         response = self.client.chat(
             model=self.model_name,
             messages=[{"role": "user", "content": prompt}],
             options=self.options,
-            format=SDMAssessmentResponse.model_json_schema(),
+            format=response_model.model_json_schema(),
         )
         content = response.message.content
         if content is None:
             raise RuntimeError("Ollama returned empty completion content")
-        return SDMAssessmentResponse.model_validate_json(content)
+        return response_model.model_validate_json(content)
 
 
 class BackendFactory:

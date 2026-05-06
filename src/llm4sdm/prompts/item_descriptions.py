@@ -1,6 +1,9 @@
-from pathlib import Path
+"""Descriptions of the OPTION items and their scoring criteria.
 
-from jinja2 import Environment, FileSystemLoader
+Source:
+https://doi.org/10.1016/j.pec.2015.12.019.
+(https://www.sciencedirect.com/science/article/pii/S0738399115301725)
+"""
 
 OPTION_ITEMS = [
     # 1
@@ -136,33 +139,3 @@ OPTION_ITEMS = [
         },
     },
 ]
-
-# examples = [
-#     {
-#         "transcript": "Doctor: ...\nPatient: ...",
-#         "evaluation": "Item 1: Score 3\nEvidence: ...",
-#     }
-# ]
-
-env = Environment(
-    loader=FileSystemLoader(Path(__file__).parent / "prompts"),
-    trim_blocks=True,
-    lstrip_blocks=True,
-)
-
-template = env.get_template("sdm_prompt.jinja")
-
-
-def build_sdm_prompt(
-    document_text: str,
-    examples=None,
-    chunk_id=None,
-    total_chunks=None,
-) -> str:
-    return template.render(
-        items=OPTION_ITEMS,
-        examples=examples or [],
-        document_text=document_text,
-        chunk_id=chunk_id,
-        total_chunks=total_chunks,
-    )

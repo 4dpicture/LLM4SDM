@@ -4,6 +4,13 @@ preprocessor:
   max_chars: 4000
   overlap_segments: 2
 
+# When true, run one assessment per OPTION-12 item in parallel and collate.
+# Avoids the failure modes of asking for a 12-item array in a single call
+# (xgrammar treats minItems/maxItems and per-item required as advisory).
+per_item_prompts: true
+# Concurrency cap for the per-item parallel calls (12 items total).
+max_workers: 12
+
 default_provider: "vllm"
 
 providers:
