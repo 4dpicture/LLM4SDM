@@ -1,0 +1,33 @@
+# Local dev stack for llm4sdm.
+
+services:
+  vllm-chat:
+    image: vllm/vllm-openai:latest
+    container_name: llm4sdm_vllm_chat
+    command:
+      # Model as positional arg (--model deprecated in vLLM 0.10+).
+      - johnsnowlabs/JSL-MedLlama-3-8B-v2.0
+      - --gpu-memory-utilization=0.90 # use 90% of the RTX 4090's 24 GB VRAM
+      - --max-model-len=8192
+      - --enforce-eager # skip CUDA graphs (saves memory, slower)
+      - --dtype=float16
+      - --served-model-name=johnsnowlabs/JSL-MedLlama-3-8B-v2.0
+      - --max-num-seqs=4 # 4-way concurrency; vLLM sizes KV from gpu-memory-utilization
+      - --enable-prefix-caching
+      - '--structured-outputs-config={"backend":"xgrammar"}'
+      # MedLlama's tokenizer_config.json ships no chat_template; transformers
+      # v4.44+ refuses the implicit fallback. Mount the canonical Llama-3
+      # template and point vLLM at it.
+      - --chat-template=/templates/llama3_chat_template.jinja
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface # share host model cache
+      - ./llama3_chat_template.jinja:/templates/llama3_chat_template.jinja:ro
+    devices:
+      - nvidia.com/gpu=all # CDI form for podman + nvidia-container-toolkit, Adjust this if using docker accordingly.
+    networks: [llm4sdm-network]
+
+networks:
+  llm4sdm-network:
+    driver: bridge

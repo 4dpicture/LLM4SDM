@@ -1,0 +1,31 @@
+# Local dev stack for llm4sdm.
+
+services:
+  vllm-chat:
+    image: vllm/vllm-openai:latest
+    container_name: llm4sdm_vllm_chat
+    command:
+      # Model as positional arg (--model deprecated in vLLM 0.10+).
+      - google/gemma-4-E4B-it
+      - --gpu-memory-utilization=0.90 # use 90% of the RTX 4090's 24 GB VRAM
+      - --max-model-len=32768 # 32K — fits long reduce prompts; model ceiling is 128K
+      - --enforce-eager # skip CUDA graphs (saves memory, slower)
+      - --dtype=float16
+      - --served-model-name=google/gemma-4-E4B-it
+      - --max-num-seqs=4 # 4-way concurrency; vLLM sizes KV from gpu-memory-utilization
+      - --enable-prefix-caching # anchors repeat across per-item calls — big win
+      # Pin structured-outputs backend. 'auto' silently fell back to no constraint
+      # on Gemma 4, producing markdown-fenced JSON. xgrammar enforces the schema
+      # at decode time.
+      - '--structured-outputs-config={"backend":"xgrammar"}'
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface # share host model cache
+    devices:
+      - nvidia.com/gpu=all # CDI form for podman + nvidia-container-toolkit, Adjust this if using docker accordingly.
+    networks: [llm4sdm-network]
+
+networks:
+  llm4sdm-network:
+    driver: bridge

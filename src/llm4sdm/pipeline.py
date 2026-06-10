@@ -9,7 +9,12 @@ import yaml
 from .backends import BackendFactory
 from .preprocessor import MedicalTranscriptProcessor
 from .prompts.item_descriptions import OPTION_ITEMS
-from .prompts.prompt import build_sdm_item_prompt, build_sdm_prompt
+from .prompts.prompt import (
+    build_sdm_item_prompt,
+    build_sdm_item_summary_prompt,
+    build_sdm_prompt,
+    build_sdm_summary_prompt,
+)
 from .structured_output import SDMAssessmentResponse, SDMItemAssessment
 
 logging.basicConfig(
@@ -97,6 +102,117 @@ class SDMPipeline:
             justification=f"Item {item_index} failed after retry ({err_name})",
         )
 
+    def _assess_summary_one_item(
+        self, evaluations: List[Any], item_index: int
+    ) -> SDMItemAssessment:
+        prompt = build_sdm_item_summary_prompt(
+            evaluations=evaluations, item_index=item_index
+        )
+        last_err: Optional[Exception] = None
+        for attempt in (1, 2):
+            try:
+                return self.backend.generate(
+                    prompt, response_model=SDMItemAssessment
+                )
+            except Exception as e:
+                last_err = e
+                logger.warning(
+                    f"  reduce item {item_index} attempt {attempt}/2 failed: "
+                    f"{type(e).__name__}: {e}"
+                )
+        logger.error(
+            f"  reduce item {item_index} failed after 2 attempts; "
+            "inserting sentinel"
+        )
+        err_name = type(last_err).__name__ if last_err else "Unknown"
+        return SDMItemAssessment(
+            score=0,
+            evidence="GENERATION FAILED",
+            justification=(
+                f"Reduce for item {item_index} failed after retry ({err_name})"
+            ),
+        )
+
+    def _assess_summary(
+        self, chunk_assessments: List[Dict[str, Any]]
+    ) -> SDMAssessmentResponse:
+        """Reduce per-chunk 12-item assessments into a single final
+        12-item assessment with one LLM call."""
+        prompt = build_sdm_summary_prompt(chunk_assessments=chunk_assessments)
+        last_err: Optional[Exception] = None
+        for attempt in (1, 2):
+            try:
+                return self.backend.generate(
+                    prompt, response_model=SDMAssessmentResponse
+                )
+            except Exception as e:
+                last_err = e
+                logger.warning(
+                    f"  reduce attempt {attempt}/2 failed: "
+                    f"{type(e).__name__}: {e}"
+                )
+        err_name = type(last_err).__name__ if last_err else "Unknown"
+        logger.error(
+            f"  reduce failed after 2 attempts ({err_name}); "
+            "returning sentinel response"
+        )
+        sentinel = [
+            SDMItemAssessment(
+                score=0,
+                evidence="GENERATION FAILED",
+                justification=f"Reduce failed after retry ({err_name})",
+            )
+            for _ in range(len(OPTION_ITEMS))
+        ]
+        return SDMAssessmentResponse(items=sentinel)
+
+    def _assess_summary_per_item(
+        self, chunk_assessments: List[Dict[str, Any]]
+    ) -> SDMAssessmentResponse:
+        """Reduce per-chunk 12-item assessments into a final 12-item
+        assessment by running 12 per-item reduce calls in parallel."""
+        n = len(OPTION_ITEMS)
+        per_item_evaluations: List[List[Dict[str, Any]]] = [
+            [ca["items"][i] for ca in chunk_assessments] for i in range(n)
+        ]
+        results: List[Optional[SDMItemAssessment]] = [None] * n
+
+        if self.max_workers <= 1:
+            logger.info(f"Reducing {n} items sequentially...")
+            for i in range(n):
+                idx = i + 1
+                item = self._assess_summary_one_item(
+                    per_item_evaluations[i], idx
+                )
+                results[i] = item
+                logger.info(
+                    f"  reduce item {idx}/{n} done (score={item.score})"
+                )
+        else:
+            logger.info(
+                f"Reducing {n} items in parallel "
+                f"(max_workers={self.max_workers})..."
+            )
+            with cf.ThreadPoolExecutor(max_workers=self.max_workers) as ex:
+                futs = {
+                    ex.submit(
+                        self._assess_summary_one_item,
+                        per_item_evaluations[i],
+                        i + 1,
+                    ): i + 1
+                    for i in range(n)
+                }
+                for fut in cf.as_completed(futs):
+                    idx = futs[fut]
+                    item = fut.result()
+                    results[idx - 1] = item
+                    logger.info(
+                        f"  reduce item {idx}/{n} done (score={item.score})"
+                    )
+
+        items = [r for r in results if r is not None]
+        return SDMAssessmentResponse(items=items)
+
     def _assess_per_item(self, chunk: str) -> SDMAssessmentResponse:
         n = len(OPTION_ITEMS)
         results: List[Optional[SDMItemAssessment]] = [None] * n
@@ -126,6 +242,23 @@ class SDMPipeline:
 
         items = [r for r in results if r is not None]
         return SDMAssessmentResponse(items=items)
+
+    def _combine_item_assessments(
+        self, assessments: List[SDMItemAssessment]
+    ) -> SDMItemAssessment:
+        """Combine multiple assessments for the same item into a single assessment."""
+        if not assessments:
+            raise ValueError("No assessments to combine")
+        max_score = max(a.score for a in assessments)
+        combined_evidence = "\n---\n".join(a.evidence for a in assessments)
+        combined_justification = "\n---\n".join(
+            a.justification for a in assessments
+        )
+        return SDMItemAssessment(
+            score=max_score,
+            evidence=combined_evidence,
+            justification=combined_justification,
+        )
 
     def _post_process(self, response: SDMAssessmentResponse) -> Dict[str, Any]:
         return response.model_dump()
@@ -164,8 +297,20 @@ class SDMPipeline:
                 f"Chunk-{idx} processed. Mean score: {response.mean:.2f}"
             )
 
-        logger.info(f"SDM assessment complete for {total} chunks.")
-        return {
-            "num_chunks": total,
-            "chunk_assessments": chunk_assessments,
-        }
+        logger.info(
+            f"All {total} chunks processed; reducing to final assessment "
+            f"(per_item_prompts={self.per_item_prompts})..."
+        )
+        if self.per_item_prompts:
+            final = self._assess_summary_per_item(chunk_assessments)
+        else:
+            final = self._assess_summary(chunk_assessments)
+
+        logger.info(
+            f"SDM assessment complete for {total} chunks. "
+            f"Final mean score: {final.mean:.2f}"
+        )
+        result = final.model_dump()
+        result["num_chunks"] = total
+        result["chunk_assessments"] = chunk_assessments
+        return result

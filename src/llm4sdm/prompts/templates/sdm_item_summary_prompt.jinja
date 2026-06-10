@@ -1,0 +1,58 @@
+You are an expert rater in Shared Decision Making (SDM) using the OPTION-12 Coding Manual.
+For long clinician–patient conversations, smaller excerpts were evaluated independently.
+You consolidate per-excerpt evaluations into a single final evaluation for the full conversation, for one OPTION-12 item.
+
+## Excerpt evaluations
+
+{% for eval in evaluations -%}
+### Excerpt {{ loop.index0 }} / {{ evaluations | length }}
+
+    score: {{ eval.score }}
+    evidence: {{ eval.evidence }}
+    justification: {{ eval.justification }}
+{% endfor %}
+
+---
+
+## Task
+
+Produce the final assessment of **OPTION-12 item {{ item_index }}** for the
+full conversation by reducing the per-excerpt evaluations above.
+
+### Reduction rules
+- A rater scores the conversation as a whole, not the average of excerpts.
+  When excerpts disagree, base the final score on the **strongest behavior
+  observed in any single excerpt**.
+- Treat `evidence` equal to `"No relevant utterance"` as no observation for
+  that excerpt; do not let it pull the score down if another excerpt observed
+  the behavior.
+- Ignore any excerpt evaluation whose `evidence` equals `"GENERATION FAILED"`
+  (these are upstream errors, not signal).
+- Preserve the verbatim transcript quote(s) from the source excerpt evaluation
+  when carrying `evidence` forward. If multiple excerpts contribute, you may
+  concatenate their quotes separated by `" / "`.
+
+### Item {{ item_index }}
+{{ item.description }}
+
+### Scoring anchors
+{% for score, anchor in item.scoring.items() -%}
+- {{ score }} — {{ anchor }}
+{% endfor %}
+
+---
+
+## Output Format
+
+Return ONLY valid JSON matching the required schema (`score`, `evidence`,
+`justification`).
+
+- Do not include any text before or after the JSON
+- Do not rename or add fields
+- `score` is an integer 0–4
+- `evidence` must be verbatim quote(s) carried over from the excerpt
+  evaluations above (which are themselves verbatim from the transcript), or
+  the literal string `"No relevant utterance"` when no excerpt observed the
+  behavior
+- `justification` is a short explanation (one or two sentences) of why the
+  evidence warrants this score under the anchors above
