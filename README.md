@@ -17,3 +17,9 @@ B. Each LLM asked to produce assessment for each item separately, After processi
 In our paper, we used strategy-B (per-item assessments). Strategy A implemented but not used due to resource constraints. It is kept in the codebase for future use.
 
 Our codebase provides two backends for LLM inference, Ollama, and VLLM. In our paper, we used VLLM for all experiments and for ease of use corresponding docker-compose.yaml files provided for each models.
+
+🎥 Presentation recording: https://www.youtube.com/watch?v=zaAO31SaQXo or [linkedin](https://lnkd.in/eEitdChT)
+ 📊 Presentation slides: https://lnkd.in/e_4aw5BN
+ 📄 Preprint: https://arxiv.org/abs/2607.06127 
+ 🌍 Project: 4D PICTURE https://4dpicture.eu
+ 
